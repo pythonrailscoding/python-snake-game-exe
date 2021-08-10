@@ -17,11 +17,15 @@ class Game:
 		self.surface = pygame.display.set_mode((1000, 800))
 		pygame.display.set_caption("Snake Game")
 
+		# Set Screen Icon
+		icon_game = pygame.image.load("resources/22285snake_98774.ico")
+		pygame.display.set_icon(icon_game)
+
 		# Create a Snake Instance
 		self.snake = Snake(self.surface, INITIAL_LENGTH)
 		self.snake.draw()
 
-		self.time_stamp = 0.02
+		self.time_stamp = 0.05
 
 		# Create an Apple Instance
 		self.apple = Apple(self.surface)
@@ -104,7 +108,7 @@ class Game:
 		pygame.mixer.music.play(-1, 0)
 
 	def render_background_image(self):
-		background_image = pygame.image.load("resources/background.jpg")
+		background_image = pygame.image.load("resources/aisvri-mkGZtYl2a9M-unsplash.jpg")
 		self.surface.blit(background_image, (0, 0))
 
 	def run(self):
@@ -159,6 +163,7 @@ class Snake:
 
 		# Get The Block Image
 		self.block = pygame.image.load("resources/block.jpg").convert()
+		self.head = pygame.image.load("resources/head.png").convert()
 
 		# This parameter will check the length of box
 		self.length = length
@@ -172,7 +177,10 @@ class Snake:
 	def draw(self):
 		# Change block position
 		for i in range(self.length):
-			self.parent_screen.blit(self.block, (self.x[i], self.y[i]))
+			if i == 0:
+				self.parent_screen.blit(self.head, (self.x[i], self.y[i]))
+			else:
+				self.parent_screen.blit(self.block, (self.x[i], self.y[i]))
 		pygame.display.flip()
 
 	def walk(self):
