@@ -162,8 +162,9 @@ class Snake:
 		self.parent_screen = parent_screen
 
 		# Get The Block Image
-		self.block = pygame.image.load("resources/block.jpg").convert()
+		self.block = pygame.image.load("resources/second_tail.png").convert()
 		self.head = pygame.image.load("resources/head.png").convert()
+		self.tail = pygame.image.load("resources/tail.png").convert()
 
 		# This parameter will check the length of box
 		self.length = length
@@ -178,9 +179,11 @@ class Snake:
 		# Change block position
 		for i in range(self.length):
 			if i == 0:
-				self.parent_screen.blit(self.head, (self.x[i], self.y[i]))
-			else:
+				self.parent_screen.blit(self.head, (self.x[0], self.y[0]))
+			elif i == self.length-1:
 				self.parent_screen.blit(self.block, (self.x[i], self.y[i]))
+			else:
+				self.parent_screen.blit(self.tail, (self.x[i], self.y[i]))
 		pygame.display.flip()
 
 	def walk(self):
