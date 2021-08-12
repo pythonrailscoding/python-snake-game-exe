@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 import time
 import random
-import sys
+from tkinter import messagebox
 
 SIZE = 40
 INITIAL_LENGTH = 1
@@ -18,14 +18,14 @@ class Game:
 		pygame.display.set_caption("Snake Game")
 
 		# Set Screen Icon
-		icon_game = pygame.image.load("resources/22285snake_98774.ico")
+		icon_game = pygame.image.load("resources/22285snake_98774.ico").convert()
 		pygame.display.set_icon(icon_game)
 
 		# Create a Snake Instance
 		self.snake = Snake(self.surface, INITIAL_LENGTH)
 		self.snake.draw()
 
-		self.time_stamp = 0.05
+		self.time_stamp = 0.03
 
 		# Create an Apple Instance
 		self.apple = Apple(self.surface)
@@ -136,6 +136,17 @@ class Game:
 						pygame.mixer.music.unpause()
 
 						pause = False
+					elif event.key == K_SPACE:
+						if pause:
+							pause = False
+							pygame.mixer.music.unpause()
+						else:
+							pause = True
+							pygame.mixer.music.pause()
+							font = pygame.font.SysFont('arial', 30)
+							line1 = font.render('Paused', True, (255, 255, 255))
+							self.surface.blit(line1, (450, 10))
+							pygame.display.flip()
 					elif not pause:
 						if event.key == K_DOWN:
 							self.snake.move_down()

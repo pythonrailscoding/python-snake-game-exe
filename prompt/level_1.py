@@ -1,8 +1,9 @@
+from tkinter import messagebox
+
 import pygame
 from pygame.locals import *
 import time
 import random
-import sys
 
 SIZE = 40
 INITIAL_LENGTH = 1
@@ -18,14 +19,14 @@ class Game:
 		pygame.display.set_caption("Snake Game")
 
 		# Set Icon
-		icon_game = pygame.image.load("resources/22285snake_98774.ico")
+		icon_game = pygame.image.load("resources/22285snake_98774.ico").convert()
 		pygame.display.set_icon(icon_game)
 
 		# Create a Snake Instance
 		self.snake = Snake(self.surface, INITIAL_LENGTH)
 		self.snake.draw()
 
-		self.time_stamp = 0.1
+		self.time_stamp = 0.07
 
 		# Create an Apple Instance
 		self.apple = Apple(self.surface)
@@ -85,13 +86,13 @@ class Game:
 		line1 = font.render(f'Game Over! Your Score is: {self.snake.length - INITIAL_LENGTH}', True, (255, 255, 255))
 		self.surface.blit(line1, (200, 300))
 
+		# Stop the Background Music
+		pygame.mixer.music.pause()
+
 		line2 = font.render("To play Again, press ENTER. To exit, press ESC", True, (255, 255, 255))
 		self.surface.blit(line2, (200, 200))
 
 		pygame.display.flip()
-
-		# Stop the Background Music
-		pygame.mixer.music.pause()
 
 	def game_reset(self):
 		self.snake = Snake(self.surface, INITIAL_LENGTH)
@@ -137,6 +138,17 @@ class Game:
 						pygame.mixer.music.unpause()
 
 						pause = False
+					elif event.key == K_SPACE:
+						if pause:
+							pause = False
+							pygame.mixer.music.unpause()
+						else:
+							pause = True
+							pygame.mixer.music.pause()
+							font = pygame.font.SysFont('arial', 30)
+							line1 = font.render('Paused', True, (255, 255, 255))
+							self.surface.blit(line1, (450, 10))
+							pygame.display.flip()
 					elif not pause:
 						if event.key == K_DOWN:
 							self.snake.move_down()
