@@ -80,17 +80,64 @@ class Game:
 		self.surface.blit(l_block, (650, 10))
 
 	def show_game_over(self):
-		self.render_background_image()
-		font = pygame.font.SysFont('arial', 30)
+		self.surface.fill('black')
+		pygame.display.update()
 
-		line1 = font.render(f'Game Over! Your Score is: {self.snake.length - INITIAL_LENGTH}', True, (255, 255, 255))
+		font = pygame.font.SysFont('Ink Free', 30)
+		font_score = pygame.font.SysFont("Ink Free", 50)
+
+		score = self.snake.length - INITIAL_LENGTH
+
+		text = ""
+		r = 0
+		g = 0
+		b = 0
+
+		line4 = font_score.render(f'Eligible for level 2', True, (143, 0, 255))
+
+		if score <= 5:
+			r = 255
+			g = 255
+			b = 0
+			text = "Well Tried! Just Keep Practising"
+		elif score > 5 and score <= 10:
+			r = 255
+			g = 165
+			b = 0
+			text = "Good! But snake is still hungry"
+		elif score > 10 and score <= 15:
+			r = 0
+			g = 0
+			b = 255
+			text = "Excellent! Just a little more to go"
+		elif score > 15 and score <= 20:
+			r = 0
+			g = 100
+			b = 0
+			text = "Fabulous!!! Eligible for Level 2"
+		elif score > 20 and score <= 50:
+			r = 0
+			g = 255
+			b = 0
+			text = "Wow! I am on top of the Earth"
+			self.surface.blit(line4, (200, 0))
+		else:
+			r = 128
+			g = 0
+			b = 128
+			text = "Haha... Snakes are my passion!!"
+			self.surface.blit(line4, (300, 0))
+
+		line3 = font_score.render(f'{text}', True, (r, g, b))
+		self.surface.blit(line3, (170, 200))
+
+		line1 = font_score.render(f'Game Over! Your Score is: {self.snake.length - INITIAL_LENGTH}', True, (255, 0, 0))
 		self.surface.blit(line1, (200, 300))
 
-		# Stop the Background Music
-		pygame.mixer.music.pause()
-
 		line2 = font.render("To play Again, press ENTER. To exit, press ESC", True, (255, 255, 255))
-		self.surface.blit(line2, (200, 200))
+		self.surface.blit(line2, (180, 400))
+
+		pygame.mixer.music.pause()
 
 		pygame.display.flip()
 
@@ -120,6 +167,7 @@ class Game:
 		# Create mainloop
 		running = True
 		pause = False
+		time.sleep(2)
 		while running:
 			for event in pygame.event.get():
 				if event.type == QUIT:

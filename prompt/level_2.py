@@ -79,14 +79,59 @@ class Game:
 		self.surface.blit(l_block, (650, 10))
 
 	def show_game_over(self):
-		self.render_background_image()
-		font = pygame.font.SysFont('arial', 30)
+		# self.render_background_image()
+		self.surface.fill('black')
+		pygame.display.update()
 
-		line1 = font.render(f'Game Over! Your Score is: {self.snake.length - INITIAL_LENGTH}', True, (255, 255, 255))
+		font = pygame.font.SysFont('Ink Free', 30)
+		font_score = pygame.font.SysFont("Ink Free", 50)
+
+		score = self.snake.length - INITIAL_LENGTH
+
+		text = ""
+		r = 0
+		g = 0
+		b = 0
+
+		if score <= 10:
+			r = 255
+			g = 255
+			b = 0
+			text = "Well Tried! Just Keep Practising"
+		elif score > 10 and score <= 20:
+			r = 255
+			g = 165
+			b = 0
+			text = "Good! But snake is still hungry"
+		elif score > 20 and score <= 40:
+			r = 0
+			g = 0
+			b = 255
+			text = "Excellent! Just a little more to go"
+		elif score > 40 and score <= 50:
+			r = 0
+			g = 100
+			b = 0
+			text = "Fabulous!!! Now, Snake is well-fed"
+		elif score > 50 and score <= 60:
+			r = 0
+			g = 255
+			b = 0
+			text = "Just put your snake on diet!"
+		else:
+			r = 128
+			g = 0
+			b = 128
+			text = "Haha... Snakes are loving you!!"
+
+		line3 = font_score.render(f'{text}', True, (r, g, b))
+		self.surface.blit(line3, (170, 200))
+
+		line1 = font_score.render(f'Game Over! Your Score is: {self.snake.length - INITIAL_LENGTH}', True, (255, 0, 0))
 		self.surface.blit(line1, (200, 300))
 
 		line2 = font.render("To play Again, press ENTER. To exit, press ESC", True, (255, 255, 255))
-		self.surface.blit(line2, (200, 200))
+		self.surface.blit(line2, (180, 400))
 
 		pygame.display.flip()
 
@@ -116,6 +161,7 @@ class Game:
 		pygame.display.flip()
 
 		# Create mainloop
+		time.sleep(2)
 		running = True
 		pause = False
 		while running:
